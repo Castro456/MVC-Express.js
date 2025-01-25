@@ -9,6 +9,19 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const app = express();
 
+// Database connection
+const dbConnection = require('./database/dbConnection');
+
+app.get('/db', async (req, res) => {
+  try {
+    const result = await dbConnection.query("select * from profile")
+    res.status(200).json(result.rows)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Internal server error')
+  }
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 console.log(path.join(__dirname, 'views'));
@@ -29,7 +42,7 @@ app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404)); //Pass this object to the next middleware
+  next(createError(404)); //Pass this object to the next middleware, use it only for middleware
 });
 
 // http-errors handler
