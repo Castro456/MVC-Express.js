@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const profileModel = require('../models/profile')
+const {apiSuccessHandler, apiErrorHandler} = require('../middlewares/apiResponseHandler');
 
 const responseHandler = (response, status, message, data = null) => {
   response.status(status).json({
@@ -12,10 +13,10 @@ const responseHandler = (response, status, message, data = null) => {
 const profileList = async (req, res, next) => {
   try {
     const result = await profileModel.getProfiles()
-    responseHandler(res, 200, 'Data fetched successfully', result)
+    apiSuccessHandler(res, 200, 'Data fetched successfully', result)
   } 
   catch (error) {
-    next(createError(error))
+    apiErrorHandler(res, 500, 'Internal Sever Error', error)
   }
 }
 
