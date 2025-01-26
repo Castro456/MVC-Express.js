@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('./app/app');
 // Like a namespace instance. can create instances like myapp:api, myapp:db (custom)
 // DEBUG=myapp:* npm start. helpful based on environments
 const debugServer = require('debug')('myapp:server'); 
