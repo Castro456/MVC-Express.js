@@ -30,7 +30,7 @@ app.use('/users', usersRouter);
 app.use('/profile', profileRouter)
 
 /**
- * If entered user not present in the routes then it will call the next middleware with status:404
+ * If entered url not present in the routes then it will call the next middleware with status:404
  */
 app.use(function(req, res, next) {
   //createError() use it only for middleware
