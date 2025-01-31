@@ -13,7 +13,7 @@ const app = require('../app');
 //   })
 // };
 
-const errorHandler = (err, req, res, next) => {
+exports.errorHandler = (err, req, res, next) => {
   // Fallback status and message if they are undefined
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';
@@ -26,7 +26,3 @@ const errorHandler = (err, req, res, next) => {
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };
-
-module.exports = {
-  errorHandler
-}
