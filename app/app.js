@@ -23,11 +23,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
+const signupRouter  = require('./routes/signup');
+
 const { errorHandler } = require('./middlewares/errorHandler');
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
 app.use('/profile', profileRouter)
+app.use('/signup', signupRouter)
 
 /**
  * If entered url not present in the routes then it will call the next middleware with status:404

@@ -7,7 +7,6 @@ exports.apiSuccessHandler = (response, status, message, data = null) => {
 }
 
 exports.apiErrorHandler = (response, status, message, error = null) => {
-  console.log(error);
   response.status(status).json({
     'status': status,
     'message': message,
