@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const env = require('dotenv');
+const header = require('header');
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
@@ -13,6 +14,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev')); 
 // Without this line NODE_ENV values wont come from dotenv
 env.config() 
+app.use(header())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //Get the cookie object for the request and can sign a cookie and send the response back
