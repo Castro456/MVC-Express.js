@@ -1,15 +1,20 @@
 exports.apiSuccessHandler = (response, status, message, data = null) => {
   response.status(status).json({
-    'status': status,
+    'status': "success",
+    'statusCode': status,
     'message': message,
     'data': data
   })
 }
 
-exports.apiErrorHandler = (response, status, message, error = null) => {
-  response.status(status).json({
-    'status': status,
-    'message': message,
-    'error': error.message
-  })
-}
+exports.errorHandler = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    status: "error",
+    statusCode,
+    message,
+    data: {},
+  });
+};
