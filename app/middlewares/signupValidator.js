@@ -38,6 +38,7 @@ signupValidation = [
   check('user_name')
     .notEmpty().withMessage('Username is required')
     .bail()
+    .trim()
     .isLength({min:4, max:8}).withMessage('Username should contain minimum of 4 and max of 8 characters')
     .bail()
 ]

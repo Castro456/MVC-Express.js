@@ -16,7 +16,7 @@ app.use(logger('dev'));
 // Without this line NODE_ENV values wont come from dotenv
 env.config() 
 app.use(helmet())
-app.use(xss())
+app.use(xss()) //Will apply xss clean globally
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //Get the cookie object for the request and can sign a cookie and send the response back
