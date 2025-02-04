@@ -29,7 +29,7 @@ const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
 const signupRouter  = require('./routes/signup');
 
-const { errorHandler } = require('./middlewares/errorHandler');
+const { pageNotFound } = require('./middlewares/pageNotFound');
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
@@ -41,9 +41,9 @@ app.use('/signup', signupRouter)
  */
 app.use(function(req, res, next) {
   //createError() use it only for middleware
-  next(createError(404)); 
+  next(createError(404, 'Page not found')); 
 })
 
-app.use(errorHandler)
+app.use(pageNotFound)
 
 module.exports = app;

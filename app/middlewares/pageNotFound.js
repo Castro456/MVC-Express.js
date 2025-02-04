@@ -13,7 +13,7 @@ const app = require('../app');
 //   })
 // };
 
-exports.errorHandler = (err, req, res, next) => {
+exports.pageNotFound = (err, req, res, next) => {
   // Fallback status and message if they are undefined
   const status = err.status || 500;
   const message = err.message || 'Internal Server Error';

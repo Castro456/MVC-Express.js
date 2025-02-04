@@ -1,22 +1,19 @@
 const usersModel = require("../models/users")
-const {apiSuccessHandler, apiErrorHandler} = require("../middlewares/apiResponseHandler")
+const {successHandler, errorHandler} = require("../middlewares/apiResponseHandler")
 const appError = require('../utils/appError');
 
-exports.register = async (req, res, next) => {
+exports.register = async (req, res) => {
   try {
     const { firstName, lastName, userName } = req.body
     const dbUserName = await usersModel.usersList(userName)
   
     if(userName === dbUserName) {
-      throw new appError("Username already taken", 409);
+      return errorHandler(res, 500, 'Username already taken', userName)
     }
 
-    return apiSuccessHandler(res, 200, 'Register can proceed further')
-  } catch (error) {
-    // Check if the error is operational (AppError) or unexpected
-    if (!(error instanceof appError)) {
-      error = new AppError("Something went wrong", 500);
-    }
-    throw error;
+    return successHandler(res, 200, 'Register can proceed further', userName)
+  } 
+  catch (error) {
+    throw new appError(error, 500);
   }
 }
