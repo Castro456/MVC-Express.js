@@ -11,7 +11,7 @@ signupValidation = [
     .notEmpty().withMessage('Last name is required')
     .bail()
     .trim()
-    .isAlpha().withMessage('First name must contain only characters'),
+    .isAlpha().withMessage('Last name must contain only characters'),
   
   check('email')
     .notEmpty().withMessage('Email is required')
@@ -34,6 +34,12 @@ signupValidation = [
     .bail()
     .matches(/\d/).withMessage('Password must contain a number')
     .matches(/[A-Z]/).withMessage('Password must contain an uppercase letter'),
+
+  check('user_name')
+    .notEmpty().withMessage('Username is required')
+    .bail()
+    .isLength({min:4, max:8}).withMessage('Username should contain minimum of 4 and max of 8 characters')
+    .bail()
 ]
 
 module.exports = signupValidation

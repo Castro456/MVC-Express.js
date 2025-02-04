@@ -3,7 +3,7 @@ exports.successHandler = (res, statusCode, message, data = false) => {
     status: "success",
     statusCode,
     message,
-    data
+    ...(data != false && {data})
   })
 }
 
@@ -12,6 +12,6 @@ exports.errorHandler = (res, statusCode, message, data = false) => {
     status: "error",
     statusCode,
     message,
-    data
+    ...(data != false && {data})
   });
 };
