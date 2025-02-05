@@ -1,6 +1,6 @@
 const usersModel = require("../models/users")
 const {successHandler, errorHandler} = require("../middlewares/apiResponseHandler")
-const appError = require('../utils/appError');
+const AppError = require('../utils/AppError');
 const bcrypt = require('bcryptjs');
 
 exports.register = async (req, res) => {
@@ -33,6 +33,6 @@ exports.register = async (req, res) => {
     return successHandler(res, 200, 'Account created successful');
   } 
   catch (error) {
-    throw new appError(error, 500);
+    throw new AppError(error);
   }
 }
