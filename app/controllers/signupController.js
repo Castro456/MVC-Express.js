@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
       return errorHandler(res, 500, 'There is an error, Please try later', newUser);
     }
 
-    return successHandler(res, 200, 'Account created successful');
+    return successHandler(res, 200, 'Account created successful, Login now');
   } 
   catch (error) {
     throw new AppError(error);
