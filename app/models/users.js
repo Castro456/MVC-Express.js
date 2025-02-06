@@ -31,6 +31,11 @@ exports.checkUserCredential = async (credential, credentialType) => {
 }
 
 exports.getPasswordByUserCred = async (credential, credentialType) => {
-  const result = await dbConnection.query(`select password from users where ${credentialType} = $1`, [credential])
+  const result = await dbConnection.query(`select id as user_id, password from users where ${credentialType} = $1`, [credential])
+  return result.rows[0]
+}
+
+exports.insertRefreshToken = async (userId, accessToken) => {
+  const result = await dbConnection.query(`update users set access_token = $1 where id = $2 returning id`, [accessToken, userId])
   return result.rows[0]
 }

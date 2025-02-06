@@ -2,6 +2,7 @@ const usersModel = require("../models/users");
 const {successHandler, errorHandler} =require("../middlewares/apiResponseHandler")
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs/dist/bcrypt");
+const crypto = require("node:crypto")
 
 exports.authentication = async (req, res) => {
     try {
@@ -20,24 +21,32 @@ exports.authentication = async (req, res) => {
         }
 
         if(credentialType !== 'none') {
-            const dbCredential = await usersModel.checkUserCredential(user_detail, credentialType)
+            const dbCredential = await usersModel.checkUserCredential(user_detail, credentialType);
 
             if(dbCredential == '' || dbCredential == undefined) {
                 return errorHandler(res, 401, 'Entered phone/email does not exists', user_detail);
             }
 
-            const dbPassword = await usersModel.getPasswordByUserCred(user_detail, credentialType)            
-            const passwordMatch = await bcrypt.compare(password, dbPassword.password)
+            const dbDetails = await usersModel.getPasswordByUserCred(user_detail, credentialType);            
+            const passwordMatch = await bcrypt.compare(password, dbDetails.password);
 
             if(!passwordMatch) {
                 return errorHandler(res, 401, 'Authentication Failed', user_detail);
             }
 
-            return successHandler(res, 200, 'Login successful', {});
+            const payload = {userId: dbDetails.user_id};
+            const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
+            const refreshToken = crypto.randomBytes(64).toString('hex');
+            const insertAccessToken = await usersModel.insertRefreshToken(dbDetails.user_id, refreshToken)
 
+            if(insertAccessToken && insertAccessToken.id) {
+                return successHandler(res, 200, 'Login successful', accessToken)
+            }
+
+            return errorHandler(res, 500, 'There was an error occurred, Please try again');
         }
         else {
-            return errorHandler(res, 401, 'Provide proper credentials', credentialType);
+            return errorHandler(res, 401, 'Enter proper credentials', credentialType);
         }
 
     } 
