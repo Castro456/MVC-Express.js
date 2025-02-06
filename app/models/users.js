@@ -25,17 +25,12 @@ exports.createUser = async (firstName, lastName, userName, email, phone, hashedP
   return result.rows[0] || {}
 }
 
-exports.getPasswordByPhone = async (phone) => {
-  const result = await dbConnection.query(`select password from users where ${phone} = $1`, [phone])
-  return result.rows[0] || {}
+exports.checkUserCredential = async (credential, credentialType) => {
+  const result = await dbConnection.query(`select ${credentialType} from users where ${credentialType} = $1`, [credential])
+  return result.rows[0]
 }
 
-exports.getPasswordByEmail = async (email) => {
-  const result = await dbConnection.query("select password from users where email = $1", [email])
-  return result.rows[0] || {}
-}
-
-exports.checkUserCredential = async (userDetail, enteredCredential) => {
-  const result = await dbConnection.query(`select ${enteredCredential} from users where ${enteredCredential} = $1`, [userDetail])
-  return result.rows[0] || {}
+exports.getPasswordByUserCred = async (credential, credentialType) => {
+  const result = await dbConnection.query(`select password from users where ${credentialType} = $1`, [credential])
+  return result.rows[0]
 }
