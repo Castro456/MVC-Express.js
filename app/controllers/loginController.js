@@ -39,9 +39,9 @@ exports.authentication = async (req, res) => {
             const refreshToken = crypto.randomBytes(64).toString('hex');
             const insertAccessToken = await usersModel.insertRefreshToken(dbDetails.user_id, refreshToken)
 
-            //Next task, work on last login, refresh token, script for refresh token
-
+            //Next task, work on refresh token, study redis
             if(insertAccessToken && insertAccessToken.id) {
+                await usersModel.updateLastLogin(dbDetails.user_id)
                 return successHandler(res, 200, 'Login successful', accessToken)
             }
 

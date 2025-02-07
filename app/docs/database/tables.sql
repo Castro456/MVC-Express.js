@@ -1,0 +1,1 @@
+alter table users add column access_token varchar(2000);

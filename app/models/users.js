@@ -39,3 +39,7 @@ exports.insertRefreshToken = async (userId, accessToken) => {
   const result = await dbConnection.query(`update users set access_token = $1 where id = $2 returning id`, [accessToken, userId])
   return result.rows[0]
 }
+
+exports.updateLastLogin = async (userId) => {
+  const result = await dbConnection.query(`update users set last_login = now() where id = $1`, [userId])
+}
