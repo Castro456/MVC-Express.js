@@ -37,10 +37,9 @@ exports.authentication = async (req, res) => {
             const payload = {userId: dbDetails.user_id};
             const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'});
             const refreshToken = crypto.randomBytes(64).toString('hex');
-            const insertAccessToken = await usersModel.insertRefreshToken(dbDetails.user_id, refreshToken)
+            const insertRefreshToken = await usersModel.insertRefreshToken(dbDetails.user_id, refreshToken)
 
-            //Next task, work on refresh token, study redis
-            if(insertAccessToken && insertAccessToken.id) {
+            if(insertRefreshToken && insertRefreshToken.id) {
                 await usersModel.updateLastLogin(dbDetails.user_id)
                 
                 res.status(200).json({

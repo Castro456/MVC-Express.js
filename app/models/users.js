@@ -35,11 +35,21 @@ exports.getPasswordByUserCred = async (credential, credentialType) => {
   return result.rows[0]
 }
 
-exports.insertRefreshToken = async (userId, accessToken) => {
-  const result = await dbConnection.query(`update users set access_token = $1 where id = $2 returning id`, [accessToken, userId])
+exports.insertRefreshToken = async (userId, refreshToken) => {
+  const result = await dbConnection.query(`update users set refresh_token = $1 where id = $2 returning id`, [refreshToken, userId])
   return result.rows[0]
 }
 
 exports.updateLastLogin = async (userId) => {
   const result = await dbConnection.query(`update users set last_login = now() where id = $1`, [userId])
+}
+
+exports.getRefreshToken = async (refreshToken) => {
+  const result = await dbConnection.query(`select id as user_id from users where refresh_token = $1`, [refreshToken])
+  return result.rows[0]
+}
+
+exports.updateRefreshToken = async (userId, newRefreshToken) => {
+  const result = await dbConnection.query(`update users set refresh_token = $1 where id = $2 returning id`, [newRefreshToken, userId])
+  return result.rows[0]
 }
