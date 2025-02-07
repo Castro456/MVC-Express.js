@@ -42,7 +42,14 @@ exports.authentication = async (req, res) => {
             //Next task, work on refresh token, study redis
             if(insertAccessToken && insertAccessToken.id) {
                 await usersModel.updateLastLogin(dbDetails.user_id)
-                return successHandler(res, 200, 'Login successful', accessToken)
+                
+                res.status(200).json({
+                    status: 'success',
+                    statusCode: 200,
+                    message: 'Login successful',
+                    refreshToken,
+                    accessToken
+                })
             }
 
             return errorHandler(res, 500, 'There was an error occurred, Please try again');
